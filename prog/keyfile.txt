@@ -1,0 +1,41 @@
+#key file to enter filenames where each parameters/responses are save.
+#
+# Tagname	;parameter	;  Type	;	
+	
+SUITcaldir	;~/SUIT/SUITcaldir;	A;Directory where all calibration files are kept.
+GeoArea		;0.0516;		D;Geometric Area in m^2
+ThFtrns		;ketan_may22_2017.txt; 	A;Thermal fileter transmitivity
+PMrfl		; al_ref.txt	;	A;Primary mirror reflectivity
+SMrfl		;al_ref.txt	 ; 	A;Secondary mirror reflectivity
+
+# Filter Wheel 1
+FW1a		;fil_res_214.txt;	A;	
+FW1b		;fil_res_221.txt;	A;	
+FW1c		;fil_res_271.txt;	A;	
+FW1d		;fil_res_274.txt;	A;	
+FW1e		;fil_res_214.txt;	A;	
+FW1f		;fil_res_214.txt;	A;	
+FW1g		;fil_res_214.txt;	A;		
+FW1h		;fil_res_214.txt;	A;	
+
+# Filter Wheel 2
+FW2a		;fil_res_214.txt;	A;	
+FW2b		;fil_res_214.txt;	A;	
+FW2c		;fil_res_214.txt;	A;	
+FW2d		;fil_res_214.txt;	A;	
+FW2e		;fil_res_214.txt;	A;	
+FW2f		;fil_res_214.txt;	A;	
+FW2g		;fil_res_214.txt;	A;	
+FW2h		;glass.txt	;	A;	
+#Lens
+lenstrns	;lens.txt;		A;		
+
+#Detector
+detqe		;ar_coat_24nm.txt;	A; QE
+detigain	;2.0;			F;Detector inverse gain.
+
+#Input solar flux
+iflux		;solar_flux_astm_2500.txt;A; Flux
+
+#Degradation percentage in Effective area
+degrade		;100	;		F; Degradation percentage in effective area
