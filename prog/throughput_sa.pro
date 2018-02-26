@@ -1,24 +1,25 @@
+;pro throughput_sa (Stand Alone
 ;; throughput.pro :  A code to calculate throughput values of SUIT onboard ADITYA. 
 
 ;; Inputs
-;;	: keyfile - Name with full path to keyfile.txt, where all input parameters are specifies
-;; 	: fw1 -  Slot position of Filter Wheel 1 [ A - H] as specified in keyfile.txt
-;; 	: fw2 - Slot position of Filter wheen 2 [ A- H ] as specified in keyfile.txt
-;; 	: expt -  Exposure time in seconds.
+;;      : keyfile - Name with full path to keyfile.txt, where all input parameters are specifies
+;;      : fw1 -  Slot position of Filter Wheel 1 [ A - H] as specified in keyfile.txt
+;;      : fw2 - Slot position of Filter wheen 2 [ A- H ] as specified in keyfile.txt
+;;      : expt -  Exposure time in seconds.
 
 ;; OUTPUT
-;; 	: OSTR - Output structure containing various parameters
+;;      : OSTR - Output structure containing various parameters
 
 ;; HISTORY
 ;; 15-Feb-2018 February created by Sreejith Padinhatteeri (sreejith@iucaa.in)
 ;; 
 
-pro throughput,keyfile,fw1slt,fw2slt,exptime
+
+
 
 ;;#Key file defeningtion
 
-;keyfile="~/SUIT/PhotoCals/prog/keyfile.txt"
-
+keyfile="~/SUIT/PhotoCals/prog/keyfile.txt"
 readcol,keyfile,strtags,vals,type, meta, comment='#', format='A,A,A,A', delim=';',/silent
 strtags=strtrim(strtags,2)
 vals=strtrim(vals,2)
@@ -42,8 +43,8 @@ smfname=strcompress(keyparams.SUITcaldir+'/'+keyparams.Smrfl,/remove_all)
 readcol,smfname,smrwv,smrfl,/silent ; in %
 linterp,smrwv,smrfl,stdwv,smrfl1
 thfname=strcompress(keyparams.SUITcaldir+'/'+keyparams.Thftrns,/remove_all)
-readcol,thfname,thflwv,thrfl,thtrns,/silent ; in %
-linterp,thflwv,thrfl,stdwv,thrfl1
+readcol,thfname,thflwv,thtrns,/silent ; in %
+;linterp,thflwv,thrfl,stdwv,thrfl1
 linterp,thflwv,thtrns,stdwv,thtrns1
 
 ;;;	FWheel- 1 
@@ -115,14 +116,29 @@ linterp,ifluxwv,iflux,stdwv,iflux1
 
 ;;Effective area calculation
 
-fw1tmp=fw1slt
-fw2tmp=fw2slt
-expt=exptime
+fw1tmp=''
+fw2tmp=''
+expt=1.0
 
-;read,fw1tmp,prompt="Enter Filter Wheel-1 slot [A-H]:" 
-;read,fw2tmp,prompt="Enter Filter Wheel-2 slot [A-H]:" 
-;read,expt,prompt=" Enter exposure time: "
-;print,''
+print,''
+print,'------------------------------------'
+print,FORMAT='(10X,"FW1",30X,"Fw1")'
+print,FORMAT ='("A.",A-25,10X,"A.", A-25)',strcompress(keyparams.fw1a,/remove_all),strcompress(keyparams.fw2a,/remove_all)
+print,FORMAT ='("B.",A-25,10X,"B.", A-25)',strcompress(keyparams.fw1b,/remove_all),strcompress(keyparams.fw2b,/remove_all)
+print,FORMAT ='("C.",A-25,10X,"C.", A-25)',strcompress(keyparams.fw1c,/remove_all),strcompress(keyparams.fw2c,/remove_all)
+print,FORMAT ='("D.",A-25,10X,"D.", A-25)',strcompress(keyparams.fw1d,/remove_all),strcompress(keyparams.fw2d,/remove_all)
+print,FORMAT ='("E.",A-25,10X,"E.", A-25)',strcompress(keyparams.fw1e,/remove_all),strcompress(keyparams.fw2e,/remove_all)
+print,FORMAT ='("F.",A-25,10X,"F.", A-25)',strcompress(keyparams.fw1f,/remove_all),strcompress(keyparams.fw2f,/remove_all)
+print,FORMAT ='("G.",A-25,10X,"G.", A-25)',strcompress(keyparams.fw1g,/remove_all),strcompress(keyparams.fw2g,/remove_all)
+print,FORMAT ='("H.",A-25,10X,"H.", A-25)',strcompress(keyparams.fw1h,/remove_all),strcompress(keyparams.fw2h,/remove_all)
+print,'------------------------------------'
+print,''
+print,''
+
+read,fw1tmp,prompt="Enter Filter Wheel-1 slot [A-H]:" 
+read,fw2tmp,prompt="Enter Filter Wheel-2 slot [A-H]:" 
+read,expt,prompt=" Enter exposure time: "
+print,''
 
 print,'------------------------------------'
 print,"FW1-Slot-"+fw1tmp+" Response file is = ",(scope_varfetch('fw1'+fw1tmp+'f', /enter, level=1))
@@ -133,7 +149,7 @@ print,''
 print,''
 
 fw1=(scope_varfetch('fw1'+fw1tmp+'trns1', /enter, level=1))
-fw2=(scope_varfetch('fw2'+fw1tmp+'trns1', /enter, level=1))
+fw2=(scope_varfetch('fw2'+fw2tmp+'trns1', /enter, level=1))
 
 ;; Aeff(λ)=Ageo*ThT(λ)*RP(λ)*RS(λ)*SF1(λ)*SF1(λ)*Q(λ)*D(λ). 
 
@@ -158,27 +174,21 @@ response =  tgain * Aeff  ; DN m^2 / photon
 photonrate = (iflux1*stdwv*6.242e+18/1239.8) ; photons/S/m2
 ccdphotonrate=photonrate*aeff  ; photons/S  falling on the total ccd
 ccdphotons= total(ccdphotonrate*expt)
-ccdphotonratepx=ccdphotonrate/(4096.*4096) ; average photon rate per pixel
 cntrate = photonrate*response 		; DN/S
-cntratepx = cntrate/(4096.*4096) 
 counts=cntrate*expt ; DN
 tcounts=total(counts)
 
 print,''
 print,''
 print,'-------------------------------------------------------'
-print,'Total photons falling at CCD =',ccdphotons
-print,'Average photons per CCD pixel =', ccdphotons/(4096.*4096)
-print,'Total counts (DN) =',tcounts
-print,'Average counts (DN) per pixel =',tcounts/(4096.*4096.)
-print,'Average counts (DN) on solar disk region of image =', tcounts/((!pi*1920*1920/4)/(0.7*0.7))  ; aprox pixels on which sun image falls 
+print,FORMAT='("Total photons falling at CCD =",E11.3)',ccdphotons
+print,FORMAT='("Total counts (DN) =",10X,E11.3)',tcounts
+print,FORMAT='("Average counts (DN) per pixel (if equally spread) =",E11.3)',tcounts/(4096.*4096.)
+print,FORMAT='("Average counts (DN) on solar disk region of image =",E11.3)', tcounts/((!pi*1920*1920/4)/(0.7*0.7))  ; aprox pixels on which sun image falls 
 	
 print,'-------------------------------------------------------'
 print,''
 print,''
-
-;str1={:0d, unbmin:0d, unbmean:0d,upbmax:0d, upbmin:0d, upbmean:0d, $
- ;   	comment:' ',chk:0d,dbstr:dbstr,params:params}
 
 stop
 end

@@ -2,40 +2,46 @@
 #
 # Tagname	;parameter	;  Type	;	
 	
-SUITcaldir	;~/SUIT/SUITcaldir;	A;Directory where all calibration files are kept.
-GeoArea		;0.0516;		D;Geometric Area in m^2
-ThFtrns		;ketan_may22_2017.txt; 	A;Thermal fileter transmitivity
-PMrfl		; al_ref.txt	;	A;Primary mirror reflectivity
-SMrfl		;al_ref.txt	 ; 	A;Secondary mirror reflectivity
+SUITcaldir	;~/SUIT/SUITcaldir/Latest;	A;	Directory where all calibration files are kept.
+
+
+GeoArea		;0.01561;		D;	Geometric Area in m^2
+ThFtrns		;CrAlSiO2_july29_2017.txt; 	A;	Thermal fileter transmitivity - two columns - wavelength <tab> transmission %
+PMrfl		; al_ref.txt	;	A;	Primary mirror reflectivity - two columns 
+SMrfl		; al_ref.txt	 ; 	A;	Secondary mirror reflectivity- two columns
 
 # Filter Wheel 1
-FW1a		;fil_res_214.txt;	A;	
-FW1b		;fil_res_221.txt;	A;	
-FW1c		;fil_res_271.txt;	A;	
-FW1d		;fil_res_274.txt;	A;	
-FW1e		;fil_res_214.txt;	A;	
-FW1f		;fil_res_214.txt;	A;	
-FW1g		;fil_res_214.txt;	A;		
-FW1h		;fil_res_214.txt;	A;	
+FW1a		;sc_fil_214nm.txt;	A;	Filter transmission - two columns-wv <> transmission %
+FW1b		;sc_fil_221nm_alter.txt;	A;	
+FW1c		;sc_fil_271nm_alter.txt;	A;	
+FW1d		;sc_fil_274nm.txt;	A;	
+FW1e		;sc_fil_279nm.txt;	A;	
+FW1f		;sc_fil_340nm.txt;	A;	
+FW1g		;ndf0.6.txt;	A;		
+FW1h		;ndf0.0.txt;	A;	
 
 # Filter Wheel 2
-FW2a		;fil_res_214.txt;	A;	
-FW2b		;fil_res_214.txt;	A;	
-FW2c		;fil_res_214.txt;	A;	
-FW2d		;fil_res_214.txt;	A;	
-FW2e		;fil_res_214.txt;	A;	
-FW2f		;fil_res_214.txt;	A;	
-FW2g		;fil_res_214.txt;	A;	
-FW2h		;glass.txt	;	A;	
+FW2a		;sc_fil_283nm.txt;	A;	
+FW2b		;sc_fil_300nm.txt;	A;	
+FW2c		;sc_fil_280nm.txt;	A;	
+FW2d		;sc_fil_388nm.txt;	A;	
+FW2e		;sc_fil_397nm.txt;	A;	
+FW2f		;ndf2.0.txt;	A;	
+FW2g		;ndf3.0.txt;	A;	
+FW2h		;ndf0.0.txt;	A;	
 #Lens
-lenstrns	;lens.txt;		A;		
+
+lenstrns	;lens.txt;	A;		
 
 #Detector
-detqe		;ar_coat_24nm.txt;	A; QE
-detigain	;2.0;			F;Detector inverse gain.
+detqe		;ar_coat_24nm.txt;	A; QE %photons that converts to electron - two columns wavelength < tab> QE % 
+detigain	;1.0;		F; Detector inverse gain - DN / electron
 
 #Input solar flux
-iflux		;solar_flux_astm_2500.txt;A; Flux
+
+iflux		;solar_flux_astm_2500.txt ; A ; Incoming Solar Flux t
 
 #Degradation percentage in Effective area
-degrade		;100	;		F; Degradation percentage in effective area
+
+degrade		;75	;		F; Current Degradation percentage in effective area 
+
