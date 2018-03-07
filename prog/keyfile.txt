@@ -11,24 +11,39 @@ PMrfl		; al_ref.txt	;	A;	Primary mirror reflectivity - two columns
 SMrfl		; al_ref.txt	 ; 	A;	Secondary mirror reflectivity- two columns
 
 # Filter Wheel 1
-FW1a		;sc_fil_214nm.txt;	A;	Filter transmission - two columns-wv <> transmission %
-FW1b		;sc_fil_221nm_alter.txt;	A;	
-FW1c		;sc_fil_271nm_alter.txt;	A;	
-FW1d		;sc_fil_274nm.txt;	A;	
-FW1e		;sc_fil_279nm.txt;	A;	
-FW1f		;sc_fil_340nm.txt;	A;	
-FW1g		;ndf0.6.txt;	A;		
-FW1h		;ndf0.0.txt;	A;	
+#FW1A		;sc_fil_214nm.txt;		A;	NB1 
+#FW1B		;sc_fil_274nm.txt;		A;	NB2 
+#FW1C		;sc_fil_279nm.txt;		A;	NB3
+#FW1D		;sc_fil_280nm.txt;		A;	NB4
+#FW1E		;sc_fil_283nm.txt;		A;	NB5
+#FW1F		;sc_fil_300nm.txt;		A;	NB6
+#FW1G		;sc_fil_388nm.txt;		A;	NB7
+#FW1H		;sc_fil_397nm.txt;		A;	NB8
+#FW1I		;sc_fil_221nm_alter.txt;	A;	BB1
+#FW1J		;sc_fil_271nm_alter.txt;	A;	BB2
+#FW1K		;sc_fil_340nm.txt;		A;	BB3
+#FW1L		;ndf0.0.txt;			A;      NDF0	
+#FW1M		;ndf0.6.txt;			A;	NDF0.6	
+#FW1N		;ndf2.0.txt;			A;	NDF2.0
+#FW1O		;ndf3.0.txt;			A;	NDF3.0
 
 # Filter Wheel 2
-FW2a		;sc_fil_283nm.txt;	A;	
-FW2b		;sc_fil_300nm.txt;	A;	
-FW2c		;sc_fil_280nm.txt;	A;	
-FW2d		;sc_fil_388nm.txt;	A;	
-FW2e		;sc_fil_397nm.txt;	A;	
-FW2f		;ndf2.0.txt;	A;	
-FW2g		;ndf3.0.txt;	A;	
-FW2h		;ndf0.0.txt;	A;	
+NB1		;sc_fil_214nm.txt;		A;	NB1 
+NB2		;sc_fil_274nm.txt;		A;	NB2 
+NB3		;sc_fil_279nm.txt;		A;	NB3
+NB4		;sc_fil_280nm.txt;		A;	NB4
+NB5		;sc_fil_283nm.txt;		A;	NB5
+NB6		;sc_fil_300nm.txt;		A;	NB6
+NB7		;sc_fil_388nm.txt;		A;	NB7
+NB8		;sc_fil_397nm.txt;		A;	NB8
+BB1		;sc_fil_221nm_alter.txt;	A;	BB1
+BB2		;sc_fil_271nm_alter.txt;	A;	BB2
+BB3		;sc_fil_340nm.txt;		A;	BB3
+NDF0		;ndf0.0.txt;			A;      NDF0	
+NDF06		;ndf0.6.txt;			A;	NDF0.6	
+NDF20		;ndf2.0.txt;			A;	NDF2.0
+NDF30		;ndf3.0.txt;			A;	NDF3.0
+
 #Lens
 
 lenstrns	;lens.txt;	A;		

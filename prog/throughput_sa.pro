@@ -11,7 +11,8 @@
 ;;      : OSTR - Output structure containing various parameters
 
 ;; HISTORY
-;; 15-Feb-2018 February created by Sreejith Padinhatteeri (sreejith@iucaa.in)
+;; 15-Feb-2018  created by Sreejith Padinhatteeri (sreejith@iucaa.in)
+;; 7-March-2018 Modified to include any combinations of sci-filters
 ;; 
 
 
@@ -20,6 +21,8 @@
 ;;#Key file defeningtion
 
 keyfile="~/SUIT/PhotoCals/prog/keyfile.txt"
+hc= 6.62607015e-34 * 3.0e+8 *1e+9  ; Jnm (Jule nano meter)
+
 readcol,keyfile,strtags,vals,type, meta, comment='#', format='A,A,A,A', delim=';',/silent
 strtags=strtrim(strtags,2)
 vals=strtrim(vals,2)
@@ -32,10 +35,13 @@ dataspec=strjoin(type,',')
 create_struct,keyparams, '',strtags,dataspec
 for i=0,n_elements(strtags)-1 do keyparams.(i)=vals[i]
 
-stdwv=indgen(1000)+200 ;in nm - 200nm - 1200 nm, with 1 nm step 
+tagnames=tag_names(keyparams)
+
+stdwv=findgen(900)+200 ;in nm - 200nm - 1100 nm, with 1 nm step 
 
 
 ;;Reading Each Cal files 
+
 pmfname=strcompress(keyparams.SUITcaldir+'/'+keyparams.PMrfl,/remove_all)
 readcol,pmfname,pmrwv,pmrfl,/silent ; in %
 linterp,Pmrwv,pmrfl,stdwv,pmrfl1
@@ -47,57 +53,67 @@ readcol,thfname,thflwv,thtrns,/silent ; in %
 ;linterp,thflwv,thrfl,stdwv,thrfl1
 linterp,thflwv,thtrns,stdwv,thtrns1
 
-;;;	FWheel- 1 
-fw1af=strcompress(keyparams.SUITcaldir+'/'+keyparams.fw1a,/remove_all)
-readcol,fw1af,fw1awv,fw1atrns,/silent ; in %
-linterp,fw1awv,fw1atrns,stdwv,fw1atrns1
-fw1bf=strcompress(keyparams.SUITcaldir+'/'+keyparams.fw1b,/remove_all)
-readcol,fw1bf,fw1bwv,fw1btrns,/silent ; in %
-linterp,fw1bwv,fw1btrns,stdwv,fw1btrns1
-fw1cf=strcompress(keyparams.SUITcaldir+'/'+keyparams.fw1c,/remove_all)
-readcol,fw1cf,fw1cwv,fw1ctrns,/silent ; in %
-linterp,fw1cwv,fw1ctrns,stdwv,fw1ctrns1
-fw1df=strcompress(keyparams.SUITcaldir+'/'+keyparams.fw1d,/remove_all)
-readcol,fw1df,fw1dwv,fw1dtrns,/silent ; in %
-linterp,fw1dwv,fw1dtrns,stdwv,fw1dtrns1
-fw1ef=strcompress(keyparams.SUITcaldir+'/'+keyparams.fw1e,/remove_all)
-readcol,fw1ef,fw1ewv,fw1etrns,/silent ; in %
-linterp,fw1ewv,fw1etrns,stdwv,fw1etrns1
-fw1ff=strcompress(keyparams.SUITcaldir+'/'+keyparams.fw1f,/remove_all)
-readcol,fw1ff,fw1fwv,fw1ftrns,/silent ; in %
-linterp,fw1fwv,fw1ftrns,stdwv,fw1ftrns1
-fw1gf=strcompress(keyparams.SUITcaldir+'/'+keyparams.fw1g,/remove_all)
-readcol,fw1gf,fw1gwv,fw1gtrns,/silent ; in %
-linterp,fw1gwv,fw1gtrns,stdwv,fw1gtrns1
-fw1hf=strcompress(keyparams.SUITcaldir+'/'+keyparams.fw1h,/remove_all)
-readcol,fw1hf,fw1hwv,fw1htrns,/silent ; in %
-linterp,fw1hwv,fw1htrns,stdwv,fw1htrns1
+;;;	Science Filters
 
-;;;	FWheel- 1 
-fw2af=strcompress(keyparams.SUITcaldir+'/'+keyparams.fw2a,/remove_all)
-readcol,fw2af,fw2awv,fw2atrns,/silent ; in %
-linterp,fw2awv,fw2atrns,stdwv,fw2atrns1
-fw2bf=strcompress(keyparams.SUITcaldir+'/'+keyparams.fw2b,/remove_all)
-readcol,fw2bf,fw2bwv,fw2btrns,/silent ; in %
-linterp,fw2bwv,fw2btrns,stdwv,fw2btrns1
-fw2cf=strcompress(keyparams.SUITcaldir+'/'+keyparams.fw2c,/remove_all)
-readcol,fw2cf,fw2cwv,fw2ctrns,/silent ; in %
-linterp,fw2cwv,fw2ctrns,stdwv,fw2ctrns1
-fw2df=strcompress(keyparams.SUITcaldir+'/'+keyparams.fw2d,/remove_all)
-readcol,fw2df,fw2dwv,fw2dtrns,/silent ; in %
-linterp,fw2dwv,fw2dtrns,stdwv,fw2dtrns1
-fw2ef=strcompress(keyparams.SUITcaldir+'/'+keyparams.fw2e,/remove_all)
-readcol,fw2ef,fw2ewv,fw2etrns,/silent ; in %
-linterp,fw2ewv,fw2etrns,stdwv,fw2etrns1
-fw2ff=strcompress(keyparams.SUITcaldir+'/'+keyparams.fw2f,/remove_all)
-readcol,fw2ff,fw2fwv,fw2ftrns,/silent ; in %
-linterp,fw2fwv,fw2ftrns,stdwv,fw2ftrns1
-fw2gf=strcompress(keyparams.SUITcaldir+'/'+keyparams.fw2g,/remove_all)
-readcol,fw2gf,fw2gwv,fw2gtrns,/silent ; in %
-linterp,fw2gwv,fw2gtrns,stdwv,fw2gtrns1
-fw2hf=strcompress(keyparams.SUITcaldir+'/'+keyparams.fw2h,/remove_all)
-readcol,fw2hf,fw2hwv,fw2htrns,/silent ; in %
-linterp,fw2hwv,fw2htrns,stdwv,fw2htrns1
+nb1f=strcompress(keyparams.SUITcaldir+'/'+keyparams.NB1,/remove_all)
+readcol,nb1f,nb1wv,nb1trns,/silent ; in %
+linterp,nb1wv,nb1trns,stdwv,nb1trns1
+
+NB2f=strcompress(keyparams.SUITcaldir+'/'+keyparams.NB2,/remove_all)
+readcol,NB2f,NB2wv,NB2trns,/silent ; in %
+linterp,NB2wv,NB2trns,stdwv,NB2trns1
+
+NB3f=strcompress(keyparams.SUITcaldir+'/'+keyparams.NB3,/remove_all)
+readcol,NB3f,NB3wv,NB3trns,/silent ; in %
+linterp,NB3wv,NB3trns,stdwv,NB3trns1
+
+NB4f=strcompress(keyparams.SUITcaldir+'/'+keyparams.NB4,/remove_all)
+readcol,NB4f,NB4wv,NB4trns,/silent ; in %
+linterp,NB4wv,NB4trns,stdwv,NB4trns1
+
+NB5f=strcompress(keyparams.SUITcaldir+'/'+keyparams.NB5,/remove_all)
+readcol,NB5f,NB5wv,NB5trns,/silent ; in %
+linterp,NB5wv,NB5trns,stdwv,NB5trns1
+
+NB6f=strcompress(keyparams.SUITcaldir+'/'+keyparams.NB6,/remove_all)
+readcol,NB6f,NB6wv,NB6trns,/silent ; in %
+linterp,NB6wv,NB6trns,stdwv,NB6trns1
+
+NB7f=strcompress(keyparams.SUITcaldir+'/'+keyparams.NB7,/remove_all)
+readcol,NB7f,NB7wv,NB7trns,/silent ; in %
+linterp,NB7wv,NB7trns,stdwv,NB7trns1
+
+NB8f=strcompress(keyparams.SUITcaldir+'/'+keyparams.NB8,/remove_all)
+readcol,NB8f,NB8wv,NB8trns,/silent ; in %
+linterp,NB8wv,NB8trns,stdwv,NB8trns1
+
+BB1f=strcompress(keyparams.SUITcaldir+'/'+keyparams.BB1,/remove_all)
+readcol,BB1f,BB1wv,BB1trns,/silent ; in %
+linterp,BB1wv,BB1trns,stdwv,BB1trns1
+
+BB2f=strcompress(keyparams.SUITcaldir+'/'+keyparams.BB2,/remove_all)
+readcol,BB2f,BB2wv,BB2trns,/silent ; in %
+linterp,BB2wv,BB2trns,stdwv,BB2trns1
+
+BB3f=strcompress(keyparams.SUITcaldir+'/'+keyparams.BB3,/remove_all)
+readcol,BB3f,BB3wv,BB3trns,/silent ; in %
+linterp,BB3wv,BB3trns,stdwv,BB3trns1
+
+NDF0f=strcompress(keyparams.SUITcaldir+'/'+keyparams.NDF0,/remove_all)
+readcol,NDF0f,NDF0wv,NDF0trns,/silent ; in %
+linterp,NDF0wv,NDF0trns,stdwv,NDF0trns1
+
+NDF06f=strcompress(keyparams.SUITcaldir+'/'+keyparams.NDF06,/remove_all)
+readcol,NDF06f,NDF06wv,NDF06trns,/silent ; in %
+linterp,NDF06wv,NDF06trns,stdwv,NDF06trns1
+
+NDF20f=strcompress(keyparams.SUITcaldir+'/'+keyparams.NDF20,/remove_all)
+readcol,NDF20f,NDF20wv,NDF20trns,/silent ; in %
+linterp,NDF20wv,NDF20trns,stdwv,NDF20trns1
+
+NDF30f=strcompress(keyparams.SUITcaldir+'/'+keyparams.NDF30,/remove_all)
+readcol,NDF30f,NDF30wv,NDF30trns,/silent ; in %
+linterp,NDF30wv,NDF30trns,stdwv,NDF30trns1
 
 ;;; Lense
 
@@ -120,74 +136,107 @@ fw1tmp=''
 fw2tmp=''
 expt=1.0
 
+print,'Filter Wheel -1 filter only will be used for inband/outband calculation'
 print,''
-print,'------------------------------------'
-print,FORMAT='(10X,"FW1",30X,"Fw1")'
-print,FORMAT ='("A.",A-25,10X,"A.", A-25)',strcompress(keyparams.fw1a,/remove_all),strcompress(keyparams.fw2a,/remove_all)
-print,FORMAT ='("B.",A-25,10X,"B.", A-25)',strcompress(keyparams.fw1b,/remove_all),strcompress(keyparams.fw2b,/remove_all)
-print,FORMAT ='("C.",A-25,10X,"C.", A-25)',strcompress(keyparams.fw1c,/remove_all),strcompress(keyparams.fw2c,/remove_all)
-print,FORMAT ='("D.",A-25,10X,"D.", A-25)',strcompress(keyparams.fw1d,/remove_all),strcompress(keyparams.fw2d,/remove_all)
-print,FORMAT ='("E.",A-25,10X,"E.", A-25)',strcompress(keyparams.fw1e,/remove_all),strcompress(keyparams.fw2e,/remove_all)
-print,FORMAT ='("F.",A-25,10X,"F.", A-25)',strcompress(keyparams.fw1f,/remove_all),strcompress(keyparams.fw2f,/remove_all)
-print,FORMAT ='("G.",A-25,10X,"G.", A-25)',strcompress(keyparams.fw1g,/remove_all),strcompress(keyparams.fw2g,/remove_all)
-print,FORMAT ='("H.",A-25,10X,"H.", A-25)',strcompress(keyparams.fw1h,/remove_all),strcompress(keyparams.fw2h,/remove_all)
-print,'------------------------------------'
+print,''
+print,'CODE for filters are : ', tagnames[5:19]
 print,''
 print,''
 
-read,fw1tmp,prompt="Enter Filter Wheel-1 slot [A-H]:" 
-read,fw2tmp,prompt="Enter Filter Wheel-2 slot [A-H]:" 
+read,fw1tmp,prompt="Enter Filter Wheel-1 slot [use above codes]:" 
+read,fw2tmp,prompt="Enter Filter Wheel-2 slot [use above codes]:" 
 read,expt,prompt=" Enter exposure time: "
 print,''
 
 print,'------------------------------------'
-print,"FW1-Slot-"+fw1tmp+" Response file is = ",(scope_varfetch('fw1'+fw1tmp+'f', /enter, level=1))
-print,"FW2-Slot-"+fw2tmp+" Response file is = ",(scope_varfetch('fw2'+fw2tmp+'f', /enter, level=1))
+print,"FW1-Slot- "+strupcase(fw1tmp)+"  Response file = ",(scope_varfetch(fw1tmp+'f', /enter, level=1))
+print,"FW2-Slot- "+strupcase(fw2tmp)+" Response file = ",(scope_varfetch(fw2tmp+'f', /enter, level=1))
 print,'------------------------------------'
 
 print,''
 print,''
 
-fw1=(scope_varfetch('fw1'+fw1tmp+'trns1', /enter, level=1))
-fw2=(scope_varfetch('fw2'+fw2tmp+'trns1', /enter, level=1))
+fw1=(scope_varfetch(fw1tmp+'trns1', /enter, level=1))
+fw2=(scope_varfetch(fw2tmp+'trns1', /enter, level=1))
 
-;; Aeff(λ)=Ageo*ThT(λ)*RP(λ)*RS(λ)*SF1(λ)*SF1(λ)*Q(λ)*D(λ). 
+;; Aeff(λ)=Ageo*ThT(λ)*RP(λ)*RS(λ)*SF1(λ)*SF1(λ)*Lens(λ)*Q(λ)*D(λ). 
 
 Aeff=keyparams.geoarea*thtrns1*pmrfl1*smrfl1*fw1*fw2*lenstrns1*qe1*keyparams.degrade* 1e-16  ; in m^2
+
+;pxareainarcsec =(0.7*0.7)/(!pi*1920*1920/4) 
+pxarea =(0.7*0.7)/(1890.*1890.)  ;Temporarily using square to match with Avyarthana's calculations
+key1bleak=1.
+key1rleak=1.
+
+fw1ib = where(fw1 ge 0.1) ; inband
+fw1ob = where (fw1 lt 0.1) ; outband
+tmp = where (fw1ob lt min(fw1ib))
+if (tmp[0] ne -1) then fw1bleak=fw1ob(tmp)  else  begin
+	fw1bleak=0  
+	key1bleak=0.  
+	print,"No Blue leak for "+fw1tmp
+	endelse
+tmp = where (fw1ob gt max(fw1ib))
+if (tmp[0] ne -1) then fw1rleak=fw1ob(tmp) else begin
+	fw1rleak=0  
+	key1rleak=0.  
+	print,"No Red leak for "+fw1tmp
+	endelse
+print,''
+print,''
+
+fw2ib = where(fw2 ge 0.1) ; inband
+fw2ob = where (fw2 lt 0.1) ; outband
+tmp = where (fw2ob lt min(fw2ib))
+if (tmp[0] ne -1) then fw2bleak=fw2ob(tmp) else print,"No Blue leak for "+fw2tmp 
+tmp = where (fw2ob gt max(fw2ib))
+if (tmp[0] ne -1) then fw2rleak=fw2ob(tmp) else print,"No Red leak for "+fw2tmp
+
+;; ==============================
+ib = fw1ib
+ob = fw1ob
+rleak = fw1rleak
+bleak = fw1bleak
+krleak= key1rleak
+kbleak= key1bleak
+;; ==============================
+
 
 ;;Total Gain of CCD-readout system G(λ)=(1239.8/λ/3.65)g (where λ is in nm)
 ;; G = (1239.8/λ ) ev photon^-1 * (1/3.65) electron ev^-1 * g DN electron^-1  == DN/photon
 
-tgain = (keyparams.detigain*1239.8)/(stdwv*3.65)  ; DN / photon
+;tgain = (keyparams.detigain*1239.8)/(stdwv*3.65)  ; DN / photon
 
+tgain = keyparams.detigain  ; SUIT QE provided by E2V include the UV gain 
 
 ;; Instrument Response R(λ,t)= Aeff(λ, t) x G(λ) ; m^2 DN/photon
 
 response =  tgain * Aeff  ; DN m^2 / photon
 
  ;; Count calculation
-;; count rate=  I((λ) J S^-1 m ^ -2   x R(λ) m^2 DN/Photons
 
-;; I J/S/m2 =I*6.242e+18 ev/S/m2  = I*6.242e+18/(1239.8/λ) photons/S/m2
-;; count rate =  I(photons/S/m2) * R (DN m2/photons)  == DN/S
+;; Photon rate =  I/(hc/λ) photons/S/m2  (Jm^-2 S^-1 / J )
+;; count rate =   I(photons/S/m2) * R (DN m2/photons)  == DN/S
 
-photonrate = (iflux1*stdwv*6.242e+18/1239.8) ; photons/S/m2
-ccdphotonrate=photonrate*aeff  ; photons/S  falling on the total ccd
-ccdphotons= total(ccdphotonrate*expt)
+photonrate = (iflux1*stdwv/hc) ; photons/S/m2
 cntrate = photonrate*response 		; DN/S
-counts=cntrate*expt ; DN
-tcounts=total(counts)
+cnt=cntrate*expt ; DN
+tcnt=total(cnt)
+pxcnt=tcnt*pxarea
+ibpxcnt = total(cnt(ib))*pxarea
+blpxcnt = total(cnt(bleak))*pxarea*kbleak
+rlpxcnt = total(cnt(rleak))*pxarea*krleak
 
-print,''
-print,''
-print,'-------------------------------------------------------'
-print,FORMAT='("Total photons falling at CCD =",E11.3)',ccdphotons
-print,FORMAT='("Total counts (DN) =",10X,E11.3)',tcounts
-print,FORMAT='("Average counts (DN) per pixel (if equally spread) =",E11.3)',tcounts/(4096.*4096.)
-print,FORMAT='("Average counts (DN) on solar disk region of image =",E11.3)', tcounts/((!pi*1920*1920/4)/(0.7*0.7))  ; aprox pixels on which sun image falls 
-	
-print,'-------------------------------------------------------'
-print,''
+inband=[round(min(stdwv(ib))),round(max(stdwv(ib)))]
+bband=[round(min(stdwv(bleak)))*kbleak, round(max(stdwv(bleak)))*kbleak]
+rband=[round(min(stdwv(rleak)))*krleak,round(max(stdwv(rleak)))*krleak]
+
+
+print,"-----------------------------------------------------------------------------------"
+print,FORMAT='("in-band  [",I4,",",I4,"] = ",E12.4,2X," --counts(DN) per pixel element")',inband[0],inband[1],ibpxcnt
+print,FORMAT='("Red Leak [",I4,",",I4,"] = ",E12.4,2X," --counts(DN) per pixel element")',rband[0],rband[1],rlpxcnt
+print,FORMAT='("Blue Leak[",I4,",",I4,"] = ",E12.4,2X," --counts(DN) per pixel element")',bband[0],bband[1],blpxcnt
+print,"-----------------------------------------------------------------------------------"
 print,''
 
 stop

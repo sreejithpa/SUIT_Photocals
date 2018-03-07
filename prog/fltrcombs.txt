@@ -1,0 +1,15 @@
+#Different filter combinations and exposure times for throughput calculations
+
+NB1 ;	NDF0 ;	1.19	
+NB2 ;   NDF0 ;	0.84
+NB3 ;   NDF0 ;	1.2
+NB4 ;   NDF0 ;	1.04
+NB5 ;   NDF0 ;	0.332
+NB6 ;   NDF06;	0.318
+NB7 ;   NDF06;	0.149
+NB8 ;   NDF06;	0.927
+BB1 ;   NDF06;	0.481
+BB2 ;   NDF20;	0.429
+BB3 ;   NDF30;	0.403
+
+
