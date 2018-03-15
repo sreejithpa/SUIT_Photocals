@@ -30,8 +30,9 @@ wlarrsz=((wlrange[1]-wlrange[0])/wlres)+1
 stdwl=findgen(wlarrsz)*wlres+wlrange[0]
 
 ;; SUIT px element area on the Sun (px element area/sun disk area )
-;pxarea =(0.7*0.7)/(!pi*1920*1920/4) 
-pxarea =(0.7*0.7)/(1890.*1890.)  ;Temporarily using square to match with Avyarthana's calculations
+pxarea =(0.7*0.7)/(!pi*1890*1890/4) 
+
+;pxarea =(0.7*0.7)/(1890.*1890.)  ;Temporarily using square to match with Avyarthana's calculations
 
 ibcutoff = 0.1 ; inband cutoff in % of transmission 
 ;;=================================================================================================
@@ -65,6 +66,7 @@ thfname=strcompress(keyparams.SUITcaldir+'/'+keyparams.Thftrns,/remove_all)
 readcol,thfname,thflwv,thtrns,/silent ; in %
 ;linterp,thflwv,thrfl,stdwl,thrfl1
 linterp,thflwv,thtrns,stdwl,thtrns1
+;linterp,thflwv,smooth(thtrns,50)*1.02,stdwl,thtrns1
 
 ;;;	Science Filters
 
@@ -238,10 +240,11 @@ cnt=cntrate*expt ; DN
 tcnt=tsum(stdwl,cnt)
 pxcnt=tcnt*pxarea
 ibpxcnt = tsum(stdwl,cnt(ib))*pxarea
-blpxcnt = tsum(stdwl,cnt(bleak))*pxarea*kbleak
-rlpxcnt = tsum(stdwl,cnt(rleak))*pxarea*krleak
+if (kbleak ne 0) then blpxcnt = tsum(stdwl,cnt(bleak))*pxarea else blpxcnt =0. 
+if (krleak ne 0 ) then rlpxcnt = tsum(stdwl,cnt(rleak))*pxarea else rlpxcnt =0.
 
 inband=[min(stdwl(ib)),(max(stdwl(ib)))]
 bband=[min(stdwl(bleak))*kbleak, max(stdwl(bleak))*kbleak]
 rband=[min(stdwl(rleak))*krleak,max(stdwl(rleak))*krleak]
+;stop
 end

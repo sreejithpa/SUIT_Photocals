@@ -7,7 +7,7 @@ fltrcombf='fltrcombs.txt'
 readcol,fltrcombf,fltrcode1,fltrcode2,exptime,comment='#', format='A,A,F', delim=';',/silent
 
 close,/all
-openw,1,'scifltrcalib2.csv'
+openw,1,'scifltrcalib_15mar2018.csv'
 printf,1,"Fltr1,Fltr2,ExpTim(s),Iband(nm),counts/px, Rband(nm), Rleak/px, Bband(nm), Bleak/px"
 
 for ii=0,n_elements(fltrcode1)-1 do begin
